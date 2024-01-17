@@ -1,13 +1,9 @@
 import { useState } from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  ImageBackground,
-  TextInput,
-  TouchableOpacity
-} from 'react-native'
+import { StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity } from 'react-native'
+import { Dimensions } from 'react-native';
 const image = require('../assets/BackgroundImage.png')
+const screenHeight = Dimensions.get('window').height;
+
 const Start = ({ navigation }) => {
   // get and set Username from Input
   const [name, setName] = useState('')
@@ -23,7 +19,9 @@ const Start = ({ navigation }) => {
       {/* Backgroundimage */}
       <ImageBackground source={image} style={styles.image}>
         {/* App title */}
-        <Text style={styles.appName}>Elephant Talk</Text>
+        <View style={styles.titleContainer }>
+        <Text style={styles.appName}>Elephant Chat</Text>
+        </View>
         {/* Get Username */}
         <View style={styles.uiContainer}>
           <TextInput
@@ -65,9 +63,7 @@ const Start = ({ navigation }) => {
           {/* Action Button, navigates to chat with props name and bgColor*/}
           <TouchableOpacity
             style={styles.textInputButton}
-            onPress={() =>
-              navigation.navigate('Chat', { name: name, bgColor: bgColor })
-            }
+            onPress={() => navigation.navigate('Chat', { name: name, bgColor: bgColor })}
           >
             <Text style={styles.textInputText}>Start Chatting</Text>
           </TouchableOpacity>
@@ -87,12 +83,16 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'flex-end'
   },
+  titleContainer: {
+    flex: 1,
+    paddingTop: 60,
+
+  },
   appName: {
     color: '#fff',
     fontSize: 45,
     fontWeight: '600',
     textAlign: 'center',
-    marginBottom: 150
   },
   uiContainer: {
     alignItems: 'center',
