@@ -2,44 +2,39 @@
 import { Bubble, GiftedChat } from 'react-native-gifted-chat'
 import { useState, useEffect } from 'react'
 import { StyleSheet, KeyboardAvoidingView, Platform, View, Text } from 'react-native'
+import { addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firestore'
 
 // takes name and bgColor from Start
-const Chat = ({ route, navigation }) => {
+const Chat = ({ route, navigation, db }) => {
+  const { userID } = route.params
   const { name } = route.params
   const { bgColor } = route.params
   // Stores the Messages
   const [messages, setMessages] = useState([])
   // sets static Message on component mount
   useEffect(() => {
-    setMessages([
-      {
-        _id: 1,
-        text: 'Hello developer',
-        createdAt: new Date(),
-        user: {
-          _id: 2,
-          name: 'React Native',
-          avatar: 'https://placeimg.com/140/140/any'
-        }
-      },
-      {
-        _id: 2,
-        text: 'This is a system message',
-        createdAt: new Date(),
-        system: true
+    const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'))
+    const unsubMessages = onSnapshot(q, (documentsSnapshot) => {
+      let newMessages = []
+      documentsSnapshot.forEach((doc) => {
+        newMessages.push({ id: doc.id, ...doc.data(), createdAt: new Date(doc.data().createdAt.toMillis()) })
+      })
+      setMessages(newMessages)
+      // Clean up code: if unsubMessages exits
+      return () => {
+        if (unsubMessages) unsubMessages()
       }
-    ])
+    })
   }, [])
   const onSend = (newMessages) => {
-    // this sets the state´s setter function to append the new message to the previous ones (the chat), while keeping the latest state
-    setMessages((previousMessages) => GiftedChat.append(previousMessages, newMessages))
+    addDoc(collection(db, 'messages'), newMessages[0])
   }
 
   // sets name and bgColor on component render
   useEffect(() => {
     navigation.setOptions({ title: name, bgColor: bgColor })
   }, [])
-  // changes backgoundcolor of chat bubbles 
+  // changes backgoundcolor of chat bubbles
   const renderBubble = (props) => {
     return (
       <Bubble
@@ -61,7 +56,8 @@ const Chat = ({ route, navigation }) => {
         renderBubble={renderBubble}
         onSend={(messages) => onSend(messages)}
         user={{
-          _id: 1
+          _id: userID,
+          name: name
         }}
       />
       {Platform.OS === 'android' ? <KeyboardAvoidingView behavior='height' /> : null}
