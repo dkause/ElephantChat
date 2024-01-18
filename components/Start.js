@@ -1,14 +1,22 @@
 import { useState } from 'react'
-import {
-  StyleSheet,
-  View,
-  Text,
-  ImageBackground,
-  TextInput,
-  TouchableOpacity
-} from 'react-native'
+import { StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native'
+import { getAuth, signInAnonymously } from 'firebase/auth'
+
 const image = require('../assets/BackgroundImage.png')
+
 const Start = ({ navigation }) => {
+  // anonymous login
+  const auth = getAuth()
+  const signInUser = () => {
+    signInAnonymously(auth)
+      .then((result) => {
+        navigation.navigate('Chat', { userID: result.user.uid, name: name, bgColor: bgColor })
+        Alert.alert('Signed in Sucessfully')
+      })
+      .catch((error) => {
+        Alert.alert('Unable to sign in, please try later again')
+      })
+  }
   // get and set Username from Input
   const [name, setName] = useState('')
   // Set Backgroundcolors
@@ -23,7 +31,9 @@ const Start = ({ navigation }) => {
       {/* Backgroundimage */}
       <ImageBackground source={image} style={styles.image}>
         {/* App title */}
-        <Text style={styles.appName}>Elephant Talk</Text>
+        <View style={styles.titleContainer}>
+          <Text style={styles.appName}>Elephant Chat</Text>
+        </View>
         {/* Get Username */}
         <View style={styles.uiContainer}>
           <TextInput
@@ -63,12 +73,7 @@ const Start = ({ navigation }) => {
             </View>
           </View>
           {/* Action Button, navigates to chat with props name and bgColor*/}
-          <TouchableOpacity
-            style={styles.textInputButton}
-            onPress={() =>
-              navigation.navigate('Chat', { name: name, bgColor: bgColor })
-            }
-          >
+          <TouchableOpacity style={styles.textInputButton} onPress={signInUser}>
             <Text style={styles.textInputText}>Start Chatting</Text>
           </TouchableOpacity>
         </View>
@@ -87,12 +92,15 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'flex-end'
   },
+  titleContainer: {
+    flex: 1,
+    paddingTop: 60
+  },
   appName: {
     color: '#fff',
     fontSize: 45,
     fontWeight: '600',
-    textAlign: 'center',
-    marginBottom: 150
+    textAlign: 'center'
   },
   uiContainer: {
     alignItems: 'center',
