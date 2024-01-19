@@ -6,12 +6,12 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // import firebase
 import { initializeApp } from 'firebase/app'
-import { getFirestore } from 'firebase/firestore'
+import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
 
-// import LogBox from react-native
-import { LogBox } from 'react-native'
+import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 
-
+import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore'
+import { useNetInfo } from '@react-native-community/netinfo'
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
@@ -26,20 +26,44 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig)
+
+// initialize Firebase Auth for that app immediately
+initializeAuth(app, {
+  persistence: getReactNativePersistence(ReactNativeAsyncStorage)
+})
+
 // initialize Cloud Firestore and get a reference
 const db = getFirestore(app)
+
+// import LogBox from react-native
+import { LogBox } from 'react-native'
+import { Alert } from 'react-native'
+import { useEffect } from 'react'
 // Ignore specific log messages
 LogBox.ignoreLogs([
   "@firebase/auth: Auth (10.3.1): You are initializing Firebase Auth for React Native without providing AsyncStorage. Auth state will default to memory persistence and will not persist between sessions. In order to persist auth state, install the package '@react-native-async-storage/async-storage' and provide it to initializeAuth:"
-]);
+])
+
 // this is the app container
 const Stack = createNativeStackNavigator()
 const App = () => {
+  // check the connection status, alert if lost, disable firebase and pass it as prop
+  const connectionStatus = useNetInfo()
+  useEffect(() => {
+    if (connectionStatus.isConnected === false) {
+      Alert.alert('Connection lost')
+      disableNetwork(db)
+    } else if (connectionStatus === true) {
+      enableNetwork(db)
+    }
+  })
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Start'>
         <Stack.Screen name='Start' component={Start} />
-        <Stack.Screen name='Chat'>{(props) => <Chat db={db} {...props} />}</Stack.Screen>
+        <Stack.Screen name='Chat'>
+          {(props) => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+        </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
   )
