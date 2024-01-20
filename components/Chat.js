@@ -22,6 +22,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   const { userID } = route.params
   const { name } = route.params
   const { bgColor } = route.params
+
   // Stores the Messages
   const [messages, setMessages] = useState([])
 
@@ -48,11 +49,13 @@ const Chat = ({ route, navigation, db, isConnected }) => {
         setMessages(newMessages)
       })
     } else loadCachedMessages()
+
     // Clean up code: if unsubMessages exits
     return () => {
       if (unsubMessages) unsubMessages()
     }
   }, [isConnected])
+
   const onSend = (newMessages) => {
     addDoc(collection(db, 'messages'), newMessages[0])
   }
@@ -63,6 +66,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
     const cachedMessages = (await AsyncStorage.getItem('message_cache')) || []
     setMessages(JSON.parse(cachedMessages))
   }
+
   // write messages into cache
   const cacheMessages = async (messagesToCache) => {
     try {
@@ -79,6 +83,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   useEffect(() => {
     navigation.setOptions({ title: name, bgColor: bgColor })
   }, [])
+
   // changes backgoundcolor of chat bubbles
   const renderBubble = (props) => {
     return (
@@ -106,7 +111,7 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
-renderInputToolbar={renderIputToolbar}
+        renderInputToolbar={renderIputToolbar}
         onSend={(messages) => onSend(messages)}
         user={{
           _id: userID,
@@ -116,7 +121,6 @@ renderInputToolbar={renderIputToolbar}
       {Platform.OS === 'android' ? (
         <KeyboardAvoidingView behavior='height' />
       ) : null}
-
     </View>
   )
 }

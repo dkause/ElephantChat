@@ -1,9 +1,11 @@
 // import the screens
 import Start from './components/Start'
 import Chat from './components/Chat'
+
 // import navigation
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
+
 // import firebase
 import { initializeApp } from 'firebase/app'
 import {
@@ -16,16 +18,17 @@ import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore'
 import { useNetInfo } from '@react-native-community/netinfo'
+
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'AIzaSyAErcd1xZdRMUs5-0HF_lXAjPEG2ZmdTZQ',
-  authDomain: 'elephant-chat-96361.firebaseapp.com',
-  projectId: 'elephant-chat-96361',
-  storageBucket: 'elephant-chat-96361.appspot.com',
-  messagingSenderId: '962794736925',
-  appId: '1:962794736925:web:76a2078d0d29a405e5e5f4',
-  measurementId: 'G-94H6KQ0S82'
+  apiKey: 'YOUR_API_KEY',
+  authDomain: 'YOUR_AUTH_DOMAIN',
+  projectId: 'YOUR_PROJECT_ID',
+  storageBucket: 'YOUR_STORAGE_BUCKET',
+  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
+  appId: 'YOUR_APP_ID',
+  measurementId: 'YOUR_MEASUREMENT_ID'
 }
 
 // Initialize Firebase
@@ -40,13 +43,8 @@ initializeAuth(app, {
 const db = getFirestore(app)
 
 // import LogBox from react-native
-import { LogBox } from 'react-native'
 import { Alert } from 'react-native'
 import { useEffect } from 'react'
-// Ignore specific log messages
-LogBox.ignoreLogs([
-  "@firebase/auth: Auth (10.3.1): You are initializing Firebase Auth for React Native without providing AsyncStorage. Auth state will default to memory persistence and will not persist between sessions. In order to persist auth state, install the package '@react-native-async-storage/async-storage' and provide it to initializeAuth:"
-])
 
 // this is the app container
 const Stack = createNativeStackNavigator()
@@ -61,6 +59,7 @@ const App = () => {
       enableNetwork(db)
     }
   })
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Start'>
@@ -78,4 +77,5 @@ const App = () => {
     </NavigationContainer>
   )
 }
+
 export default App
