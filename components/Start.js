@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Alert
+} from 'react-native'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 
 const image = require('../assets/BackgroundImage.png')
@@ -10,25 +18,33 @@ const Start = ({ navigation }) => {
   const signInUser = () => {
     signInAnonymously(auth)
       .then((result) => {
-        navigation.navigate('Chat', { userID: result.user.uid, name: name, bgColor: bgColor })
-        Alert.alert('Signed in Sucessfully')
+        navigation.navigate('Chat', {
+          userID: result.user.uid,
+          name: name,
+          bgColor: bgColor
+        })
+        Alert.alert('Signed in Successfully')
       })
       .catch((error) => {
-        Alert.alert('Unable to sign in, please try later again')
+        Alert.alert('Unable to sign in, please try again later')
       })
   }
+
   // get and set Username from Input
   const [name, setName] = useState('')
-  // Set Backgroundcolors
+
+  // Set Background colors
   const bgColor1 = '#090C08'
   const bgColor2 = '#474056'
   const bgColor3 = '#8a95a5'
   const bgColor4 = '#B9C6Ae'
-  //get and set Backgroundcolor
+
+  // get and set Background color
   const [bgColor, setBgColor] = useState('')
+
   return (
     <View style={styles.container}>
-      {/* Backgroundimage */}
+      {/* Background image */}
       <ImageBackground source={image} style={styles.image}>
         {/* App title */}
         <View style={styles.titleContainer}>
@@ -44,7 +60,9 @@ const Start = ({ navigation }) => {
           />
           {/* Container for Button colors */}
           <View style={styles.buttonContainer}>
-            <Text style={styles.colorButtonLabel}>Choose Backgroundcolor:</Text>
+            <Text style={styles.colorButtonLabel}>
+              Choose Background color:
+            </Text>
             <View style={styles.buttonBox}>
               <TouchableOpacity
                 style={[styles.colorButton, { backgroundColor: bgColor1 }]}
@@ -72,7 +90,7 @@ const Start = ({ navigation }) => {
               ></TouchableOpacity>
             </View>
           </View>
-          {/* Action Button, navigates to chat with props name and bgColor*/}
+          {/* Action Button, navigates to chat with props name and bgColor */}
           <TouchableOpacity style={styles.textInputButton} onPress={signInUser}>
             <Text style={styles.textInputText}>Start Chatting</Text>
           </TouchableOpacity>
@@ -127,7 +145,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-evenly'
   },
-
   colorButton: {
     width: 40,
     height: 40,
@@ -150,4 +167,5 @@ const styles = StyleSheet.create({
     color: '#fff'
   }
 })
+
 export default Start
