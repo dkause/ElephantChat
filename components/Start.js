@@ -1,5 +1,13 @@
 import { useState } from 'react'
-import { StyleSheet, View, Text, ImageBackground, TextInput, TouchableOpacity, Alert } from 'react-native'
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity,
+  Alert
+} from 'react-native'
 import { getAuth, signInAnonymously } from 'firebase/auth'
 
 const image = require('../assets/BackgroundImage.png')
@@ -10,7 +18,11 @@ const Start = ({ navigation }) => {
   const signInUser = () => {
     signInAnonymously(auth)
       .then((result) => {
-        navigation.navigate('Chat', { userID: result.user.uid, name: name, bgColor: bgColor })
+        navigation.navigate('Chat', {
+          userID: result.user.uid,
+          name: name,
+          bgColor: bgColor
+        })
         Alert.alert('Signed in Sucessfully')
       })
       .catch((error) => {

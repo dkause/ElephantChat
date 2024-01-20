@@ -6,7 +6,11 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 // import firebase
 import { initializeApp } from 'firebase/app'
-import { initializeAuth, getAuth, getReactNativePersistence } from 'firebase/auth';
+import {
+  initializeAuth,
+  getAuth,
+  getReactNativePersistence
+} from 'firebase/auth'
 
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -62,7 +66,13 @@ const App = () => {
       <Stack.Navigator initialRouteName='Start'>
         <Stack.Screen name='Start' component={Start} />
         <Stack.Screen name='Chat'>
-          {(props) => <Chat isConnected={connectionStatus.isConnected} db={db} {...props} />}
+          {(props) => (
+            <Chat
+              isConnected={connectionStatus.isConnected}
+              db={db}
+              {...props}
+            />
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

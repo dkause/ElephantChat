@@ -1,8 +1,20 @@
 // imports
 import { Bubble, GiftedChat, InputToolbar } from 'react-native-gifted-chat'
 import { useState, useEffect } from 'react'
-import { StyleSheet, KeyboardAvoidingView, Platform, View, Text } from 'react-native'
-import { addDoc, collection, onSnapshot, orderBy, query } from 'firebase/firestore'
+import {
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  View,
+  Text
+} from 'react-native'
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query
+} from 'firebase/firestore'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
 // takes name and bgColor from Start
@@ -26,7 +38,11 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       unsubMessages = onSnapshot(q, (documentsSnapshot) => {
         let newMessages = []
         documentsSnapshot.forEach((doc) => {
-          newMessages.push({ id: doc.id, ...doc.data(), createdAt: new Date(doc.data().createdAt.toMillis()) })
+          newMessages.push({
+            id: doc.id,
+            ...doc.data(),
+            createdAt: new Date(doc.data().createdAt.toMillis())
+          })
         })
         cacheMessages(newMessages)
         setMessages(newMessages)
@@ -50,7 +66,10 @@ const Chat = ({ route, navigation, db, isConnected }) => {
   // write messages into cache
   const cacheMessages = async (messagesToCache) => {
     try {
-      await AsyncStorage.setItem('message_cache', JSON.stringify(messagesToCache))
+      await AsyncStorage.setItem(
+        'message_cache',
+        JSON.stringify(messagesToCache)
+      )
     } catch (error) {
       console.log(error.message)
     }
@@ -74,12 +93,12 @@ const Chat = ({ route, navigation, db, isConnected }) => {
       />
     )
   }
-  
+
   // Hide input when offline
-const renderIputToolbar = () => {
-  if (isConnected) return <InputToolbar {...props} />
-  else return null
-}
+  const renderIputToolbar = (props) => {
+    if (isConnected) return <InputToolbar {...props} />
+    else return null
+  }
 
   //Display of chat
   return (
@@ -87,13 +106,17 @@ const renderIputToolbar = () => {
       <GiftedChat
         messages={messages}
         renderBubble={renderBubble}
+renderInputToolbar={renderIputToolbar}
         onSend={(messages) => onSend(messages)}
         user={{
           _id: userID,
           name: name
         }}
       />
-      {Platform.OS === 'android' ? <KeyboardAvoidingView behavior='height' /> : null}
+      {Platform.OS === 'android' ? (
+        <KeyboardAvoidingView behavior='height' />
+      ) : null}
+
     </View>
   )
 }
