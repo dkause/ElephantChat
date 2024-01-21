@@ -17,18 +17,19 @@ import {
 import ReactNativeAsyncStorage from '@react-native-async-storage/async-storage'
 
 import { getFirestore, disableNetwork, enableNetwork } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage'
 import { useNetInfo } from '@react-native-community/netinfo'
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: 'YOUR_API_KEY',
-  authDomain: 'YOUR_AUTH_DOMAIN',
-  projectId: 'YOUR_PROJECT_ID',
-  storageBucket: 'YOUR_STORAGE_BUCKET',
-  messagingSenderId: 'YOUR_MESSAGING_SENDER_ID',
-  appId: 'YOUR_APP_ID',
-  measurementId: 'YOUR_MEASUREMENT_ID'
+  apiKey: 'AIzaSyAErcd1xZdRMUs5-0HF_lXAjPEG2ZmdTZQ',
+  authDomain: 'elephant-chat-96361.firebaseapp.com',
+  projectId: 'elephant-chat-96361',
+  storageBucket: 'elephant-chat-96361.appspot.com',
+  messagingSenderId: '962794736925',
+  appId: '1:962794736925:web:76a2078d0d29a405e5e5f4',
+  measurementId: 'G-94H6KQ0S82'
 }
 
 // Initialize Firebase
@@ -41,7 +42,7 @@ initializeAuth(app, {
 
 // initialize Cloud Firestore and get a reference
 const db = getFirestore(app)
-
+const storage = getStorage(app)
 // import LogBox from react-native
 import { Alert } from 'react-native'
 import { useEffect } from 'react'
@@ -69,6 +70,7 @@ const App = () => {
             <Chat
               isConnected={connectionStatus.isConnected}
               db={db}
+              storage={storage}
               {...props}
             />
           )}
