@@ -35,10 +35,11 @@ This is a chat running on mobiles
 - Users can chat, send messages
 - they can send images
 - they can send their lcoation
+- hides input field when offline
 
 ## Tools
 
-[![My Skills](https://skillicons.dev/icons?i=react,firebase,androidstudio,vscode,md,nodejs)](https://skillicons.dev)
+[![Tools used](https://skillicons.dev/icons?i=react,firebase,androidstudio,vscode,md,nodejs)](https://skillicons.dev)
 
 The App is coded in React-Native with Visual Studio Code and use Expo to port to IOS and Android.  
 I tested the app with my IOS device and an emulated android device.
