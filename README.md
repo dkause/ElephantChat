@@ -6,6 +6,14 @@
 
 ElephantTalk is a Chat App for mobiles made in REACT Native.
 
+## Features
+
+Users can send messages, take photos, upload pictures from the library of the phone and send their location. 
+
+## Screenshot
+
+![Screenshot of Elephant Talk]() 
+
 ## Table of Contents
 
 - [Installation](#installation)
