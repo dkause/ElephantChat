@@ -4,7 +4,8 @@
 
 ## Description
 
-ElephantTalk is a Chat App for mobiles made in REACT Native-
+ElephantTalk is a Chat App for mobiles made in REACT Native.
+
 ## Table of Contents
 
 - [Installation](#installation)
