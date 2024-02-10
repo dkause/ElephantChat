@@ -4,8 +4,7 @@
 
 ## Description
 
-ElephantTalk is a Chat App for mobiles made in REACT Native to showcase my developer skills.
-
+ElephantTalk is a Chat App for mobiles made in REACT Native-
 ## Table of Contents
 
 - [Installation](#installation)
@@ -32,18 +31,18 @@ Clone the repo and go!
 This is a chat running on mobiles
 
 - users can set the backgroundcolor
-- Users can chat, send messages
-- they can send images
-- they can send their lcoation
-- hides input field when offline
+- users can chat, send messages
+- users can send images
+- users can send their location
+- the app hides input field when offline
 
 ## Tools
 
 [![Tools used](https://skillicons.dev/icons?i=react,firebase,androidstudio,vscode,md,nodejs)](https://skillicons.dev)
 
-The App is coded in React-Native with Visual Studio Code and use Expo to port to IOS and Android.  
+The App uses React-Native and uses Expo to port to IOS and Android.  
 I tested the app with my IOS device and an emulated android device.
-
+Visual Studio Code was used as an editor.
 ## Contributing
 
 PRs are welcome.
