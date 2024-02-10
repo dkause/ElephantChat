@@ -12,7 +12,7 @@ Users can send messages, take photos, upload pictures from the library of the ph
 
 ## Screenshot
 
-![Screenshot of Elephant Talk]() 
+![Screenshot of Elephant Talk](../images/elephant-chat-png) 
 
 ## Table of Contents
 
